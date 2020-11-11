@@ -19,7 +19,33 @@ app.get('/', (req, res) => {
   res.render('Home');
 });
 
+app.get('/beers', (req, res) => {
+  punkAPI
+    .getBeers()
+    .then(beersFromApi => {
+      console.log('All the Beers from the API:', beersFromApi);
+      const data = {
+        beersFromApi
+      };
+      res.render('Beers', data);
+    })
+    .catch(error => console.log(error));
+});
+
+app.get('/random-beer', (req, res) => {
+  punkAPI
+    .getRandom()
+    .then(responseFromAPI => {
+      console.log('Random beer from the API:', responseFromAPI);
+      const oneBeer = responseFromAPI[0];
+      const props = {
+        oneBeer
+      };
+      res.render('RandomBeer', props);
+    })
+    .catch(error => console.log(error));
+});
 
 app.listen(3000, () => {
-  console.log('🏃‍ on port 3000')
+  console.log('🏃‍ on port 3000');
 });
